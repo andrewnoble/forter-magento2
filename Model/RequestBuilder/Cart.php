@@ -162,12 +162,12 @@ class Cart
 
         return [
             "personalDetails" => [
-                "firstName" => !empty($name[0]) ? $name[0] : "",
-                "lastName" => !empty($name[1]) ? $name[1] : "",
-                "email" => $productOptions["giftcard_recipient_email"]
+                "firstName" => !empty($name[0]) ? (string)$name[0] : "",
+                "lastName" => !empty($name[1]) ? (string)$name[1] : "",
+                "email" => (string)$productOptions["giftcard_recipient_email"]
             ],
             "comments" => [
-                "messageToBeneficiary" => !empty($productOptions["giftcard_message"]) ? $productOptions["giftcard_message"] : ""
+                "messageToBeneficiary" => !empty($productOptions["giftcard_message"]) ? (string)$productOptions["giftcard_message"] : ""
             ]
         ];
     }
