@@ -88,7 +88,7 @@ class Cart
             ];
 
             if ($beneficiaries = $this->getBeneficiaries($item)) {
-                $singleCartItem["beneficiaries"] = $beneficiaries;
+                $singleCartItem["beneficiaries"] = [$beneficiaries];
             }
 
             $cartItems[] = $singleCartItem;
@@ -158,7 +158,7 @@ class Cart
             return null;
         }
 
-        $name = explode(" ", $productOptions["giftcard_recipient_name"], 1);
+        $name = explode(" ", $productOptions["giftcard_recipient_name"], 2);
 
         return [
             "personalDetails" => [
