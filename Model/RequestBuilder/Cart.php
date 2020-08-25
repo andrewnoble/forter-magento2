@@ -154,11 +154,11 @@ class Cart
     {
         $productOptions = $item->getProductOptions();
 
-        if ($productOptions === null || empty($productOptions['giftcard_recipient_name']) || empty($productOptions['giftcard_recipient_email'])) {
+        if ($productOptions === null || empty($productOptions["giftcard_recipient_name"]) || empty($productOptions["giftcard_recipient_email"])) {
             return null;
         }
 
-        $name = explode(' ', $productOptions['giftcard_recipient_name'], 1);
+        $name = explode(" ", $productOptions["giftcard_recipient_name"], 1);
 
         return [
             "personalDetails" => [
