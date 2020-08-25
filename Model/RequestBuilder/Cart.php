@@ -87,6 +87,10 @@ class Cart
                 ]
             ];
 
+            if ($beneficiaries = $this->getBeneficiaries($item)) {
+                $singleCartItem["beneficiaries"] = $beneficiaries;
+            }
+
             $cartItems[] = $singleCartItem;
         }
         return $cartItems;
@@ -139,5 +143,32 @@ class Cart
 
         $categories = implode("/", $categories);
         return $categories;
+    }
+
+    /**
+     * @param \Magento\Sales\Model\Order\Item $item
+     *
+     * @return array|null
+     */
+    private function getBeneficiaries($item)
+    {
+        $productOptions = $item->getProductOptions();
+
+        if ($productOptions === null || empty($productOptions['giftcard_recipient_name']) || empty($productOptions['giftcard_recipient_email'])) {
+            return null;
+        }
+
+        $name = explode(' ', $productOptions['giftcard_recipient_name'], 1);
+
+        return [
+            "personalDetails" => [
+                "firstName" => !empty($name[0]) ? $name[0] : "",
+                "lastName" => !empty($name[1]) ? $name[1] : "",
+                "email" => $productOptions["giftcard_recipient_email"]
+            ],
+            "comments" => [
+                "messageToBeneficiary" => !empty($productOptions["giftcard_message"]) ? $productOptions["giftcard_message"] : ""
+            ]
+        ];
     }
 }
