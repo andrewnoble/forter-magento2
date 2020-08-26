@@ -345,4 +345,30 @@ class Customer
 
         return $billingDetails;
     }
+
+    /**
+     * @param \Magento\Sales\Model\Order $order
+     *
+     * @return array
+     */
+    public function getBeneficiaries($order) {
+        $address       = $order->getShippingAddress() ? $order->getShippingAddress() : $order->getBillingAddress();
+        $beneficiaries = [
+            "personalDetails" => [
+                "firstName" => (string)$address->getFirstname(),
+                "lastName"  => (string)$address->getLastname()
+            ],
+            "address"         => $this->getAddressData($address)
+        ];
+
+        if ($email = $address->getEmail()) {
+            $beneficiaries["personalDetails"]["email"] = $email;
+        }
+
+        if ($phone = $address->getTelephone()) {
+            $beneficiaries["phone"][] = [$phone];
+        }
+
+        return $beneficiaries;
+    }
 }

@@ -72,6 +72,7 @@ class Cart
     {
         $totalDiscount = 0;
         $cartItems = [];
+        $beneficiaries = $this->customerPrepere->getBeneficiaries($order);
 
         foreach ($order->getAllItems() as $item) {
 
@@ -107,7 +108,7 @@ class Cart
                         "wrapAsGift" => $item->getData("gift_message_available") ? true : false
                     ]
                 ],
-                "beneficiaries" => $this->giftCardPrepere->isGiftCard($item) ? $this->giftCardPrepere->getGiftCardBeneficiaries($item) : [$this->customerPrepere->getPrimaryRecipient($order)]
+                "beneficiaries" => $this->giftCardPrepere->isGiftCard($item) ? $this->giftCardPrepere->getGiftCardBeneficiaries($item) : $beneficiaries
             ];
 
             $cartItems[] = $singleCartItem;
