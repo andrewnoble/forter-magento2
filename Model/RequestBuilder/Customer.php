@@ -123,8 +123,8 @@ class Customer
      * @return array
      */
     public function getPrimaryRecipient($order, $useGiftCardRecipient = false) {
-        $address   = $order->getShippingAddress() ? $order->getShippingAddress() : $order->getBillingAddress();
-        $recipient = [
+        $address          = $order->getShippingAddress() ? $order->getShippingAddress() : $order->getBillingAddress();
+        $primaryRecipient = [
             "personalDetails" => [
                 "firstName" => (string)$address->getFirstname(),
                 "lastName"  => (string)$address->getLastname()
@@ -133,18 +133,18 @@ class Customer
         ];
 
         if ($email = $address->getEmail()) {
-            $recipient["personalDetails"]["email"] = $email;
+            $primaryRecipient["personalDetails"]["email"] = $email;
         }
 
         if ($useGiftCardRecipient && $giftCardRecipient = $this->giftCardPrepere->getGiftCardPrimaryRecipient($order)) {
-            $recipient["personalDetails"] = $giftCardRecipient;
+            $primaryRecipient["personalDetails"] = $giftCardRecipient;
         }
 
         if ($phone = $address->getTelephone()) {
-            $recipient["phone"][] = [$phone];
+            $primaryRecipient["phone"][] = [$phone];
         }
 
-        return $recipient;
+        return $primaryRecipient;
     }
 
     /**
