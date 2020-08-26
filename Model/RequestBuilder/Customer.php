@@ -11,6 +11,7 @@
 namespace Forter\Forter\Model\RequestBuilder;
 
 use Forter\Forter\Model\Config as ForterConfig;
+use Forter\Forter\Model\RequestBuilder\GiftCard as GiftCardPrepere;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\Session;
 use Magento\Newsletter\Model\Subscriber;
@@ -25,39 +26,47 @@ use Magento\Wishlist\Controller\WishlistProviderInterface;
  */
 class Customer
 {
-    /**
-     *
-     */
     const SHIPPING_METHOD_PREFIX = "Select Shipping Method - ";
 
     /**
      * @var StoreManagerInterface
      */
     private $storeManager;
+
     /**
      * @var WishlistProviderInterface
      */
     private $wishlistProvider;
+
     /**
      * @var Session
      */
     private $session;
+
     /**
      * @var OrderFactory
      */
     private $orderFactory;
+
     /**
      * @var Review
      */
     private $review;
+
     /**
      * @var Subscriber
      */
     private $subscriber;
+
     /**
      * @var Config
      */
     private $forterConfig;
+
+    /**
+     * @var GiftCardPrepere
+     */
+    private $giftCardPrepere;
 
     /**
      * Customer constructor.
@@ -67,6 +76,7 @@ class Customer
      * @param StoreManagerInterface $storeManager
      * @param Subscriber $subscriber
      * @param Config $forterConfig
+     * @param GiftCardPrepere $giftCardPrepere
      */
     public function __construct(
         OrderFactory $orderFactory,
@@ -76,7 +86,8 @@ class Customer
         StoreManagerInterface $storeManager,
         Subscriber $subscriber,
         CustomerRepositoryInterface $customerRepository,
-        ForterConfig $forterConfig
+        ForterConfig $forterConfig,
+        GiftCardPrepere $giftCardPrepere
     ) {
         $this->session = $session;
         $this->wishlistProvider = $wishlistProvider;
@@ -86,6 +97,7 @@ class Customer
         $this->subscriber = $subscriber;
         $this->customerRepository = $customerRepository;
         $this->forterConfig = $forterConfig;
+        $this->giftCardPrepere = $giftCardPrepere;
     }
 
     /**
@@ -105,49 +117,34 @@ class Customer
     }
 
     /**
-     * @param $order
+     * @param \Magento\Sales\Model\Order $order
+     * @param bool                       $useGiftCardRecipient
+     *
      * @return array
      */
-    public function getPrimaryRecipient($order)
-    {
-        $shippingAddress = $order->getShippingAddress();
-        $billingAddress = $order->getBillingAddress();
+    public function getPrimaryRecipient($order, $useGiftCardRecipient = false) {
+        $address   = $order->getShippingAddress() ? $order->getShippingAddress() : $order->getBillingAddress();
+        $recipient = [
+            "personalDetails" => [
+                "firstName" => (string)$address->getFirstname(),
+                "lastName"  => (string)$address->getLastname()
+            ],
+            "address"         => $this->getAddressData($address)
+        ];
 
-        $primaryRecipient = [];
-        if ($shippingAddress) {
-            $personalDetails = [
-                "firstName" => $shippingAddress->getFirstname() . "",
-                "lastName" => $shippingAddress->getLastname() . "",
-                "email" => $shippingAddress->getEmail() . ""
-            ];
-            if ($shippingAddress->getTelephone()) {
-                $phone = [
-                    [
-                        "phone" => $shippingAddress->getTelephone() . ""
-                    ]
-                ];
-            }
-            $primaryRecipient["address"] = $this->getAddressData($shippingAddress);
-        } else {
-            if ($billingAddress->getTelephone()) {
-                $phone = [
-                    [
-                        "phone" => $billingAddress->getTelephone() . ""
-                    ]
-                ];
-            }
-            $personalDetails = [
-                "firstName" => $billingAddress->getFirstName() . "",
-                "lastName" => $billingAddress->getLastName() . ""
-            ];
-        }
-        $primaryRecipient["personalDetails"] = $personalDetails;
-
-        if (isset($phone)) {
-            $primaryRecipient["phone"] = $phone;
+        if ($email = $address->getEmail()) {
+            $recipient["personalDetails"]["email"] = $email;
         }
 
-        return $primaryRecipient;
+        if ($useGiftCardRecipient && $giftCardRecipient = $this->giftCardPrepere->getGiftCardPrimaryRecipient($order)) {
+            $recipient["personalDetails"] = $giftCardRecipient;
+        }
+
+        if ($phone = $address->getTelephone()) {
+            $recipient["phone"][] = [$phone];
+        }
+
+        return $recipient;
     }
 
     /**
@@ -344,31 +341,5 @@ class Customer
         }
 
         return $billingDetails;
-    }
-
-    /**
-     * @param \Magento\Sales\Model\Order $order
-     *
-     * @return array
-     */
-    public function getBeneficiaries($order) {
-        $address       = $order->getShippingAddress() ? $order->getShippingAddress() : $order->getBillingAddress();
-        $beneficiaries = [
-            "personalDetails" => [
-                "firstName" => (string)$address->getFirstname(),
-                "lastName"  => (string)$address->getLastname()
-            ],
-            "address"         => $this->getAddressData($address)
-        ];
-
-        if ($email = $address->getEmail()) {
-            $beneficiaries["personalDetails"]["email"] = $email;
-        }
-
-        if ($phone = $address->getTelephone()) {
-            $beneficiaries["phone"][] = [$phone];
-        }
-
-        return $beneficiaries;
     }
 }

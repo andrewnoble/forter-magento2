@@ -12,10 +12,10 @@ namespace Forter\Forter\Model\RequestBuilder;
 
 /**
  * Class GiftCard
+ *
  * @package Forter\Forter\Model\RequestBuilder
  */
-class GiftCard
-{
+class GiftCard {
     /**
      * @param \Magento\Sales\Model\Order\Item $item
      *
@@ -35,20 +35,59 @@ class GiftCard
      */
     public function getGiftCardBeneficiaries($item)
     {
+        $data          = $this->formatData($item);
+        $beneficiaries = [
+            "personalDetails" => [
+                "firstName" => $data["firstName"],
+                "lastName"  => $data["lastName"],
+                "email"     => $data["email"]
+            ]
+        ];
+
+        if ($message = $data["message"]) {
+            $beneficiaries["comments"]["messageToBeneficiary"] = $message;
+        }
+
+        return [$beneficiaries];
+    }
+
+    /**
+     * @param \Magento\Sales\Model\Order $order
+     *
+     * @return array|null
+     */
+    public function getGiftCardPrimaryRecipient($order)
+    {
+        foreach ($order->getAllItems() as $item) {
+            if ($this->isGiftCard($item)) {
+                $data = $this->formatData($item);
+
+                return [
+                    "firstName" => $data["firstName"],
+                    "lastName"  => $data["lastName"],
+                    "email"     => $data["email"]
+                ];
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param \Magento\Sales\Model\Order\Item $item
+     *
+     * @return array
+     */
+    private function formatData($item)
+    {
         $productOptions = $item->getProductOptions();
-        $name           = explode(" ", $productOptions['giftcard_recipient_name'], 2);
+        $name           = explode(" ", $productOptions["giftcard_recipient_name"], 2);
 
         return [
-            [
-                "personalDetails" => [
-                    "firstName" => !empty($name[0]) ? $name[0] : "",
-                    "lastName"  => !empty($name[1]) ? $name[1] : "",
-                    "email"     => $productOptions["giftcard_recipient_email"]
-                ],
-                "comments"        => [
-                    "messageToBeneficiary" => !empty($productOptions["giftcard_message"]) ? $productOptions["giftcard_message"] : ""
-                ]
-            ]
+            "firstName" => !empty($name[0]) ? (string)$name[0] : "",
+            "lastName"  => !empty($name[1]) ? (string)$name[1] : "",
+            "email"     => (string)$productOptions["giftcard_recipient_email"],
+            "message"   => !empty($productOptions["giftcard_message"]) ? $productOptions["giftcard_message"] : ""
         ];
     }
 }
