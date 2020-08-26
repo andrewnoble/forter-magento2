@@ -72,7 +72,7 @@ class Cart
     {
         $totalDiscount = 0;
         $cartItems = [];
-        $beneficiaries = $this->customerPrepere->getBeneficiaries($order);
+        $beneficiaries = $this->customerPrepere->getPrimaryRecipient($order);
 
         foreach ($order->getAllItems() as $item) {
 

@@ -150,7 +150,7 @@ class Order
         "totalAmount" => $this->cartPrepare->getTotalAmount($order),
         "cartItems" => $this->cartPrepare->generateCartItems($order),
         "primaryDeliveryDetails" => $this->customerPrepere->getPrimaryDeliveryDetails($order),
-        "primaryRecipient" => $this->customerPrepere->getPrimaryRecipient($order),
+        "primaryRecipient" => $this->customerPrepere->getPrimaryRecipient($order, true),
         "accountOwner" => $this->customerPrepere->getAccountOwnerInfo($order),
         "customerAccountData" => $this->customerPrepere->getCustomerAccountData($order, null),
         "totalDiscount" => $this->cartPrepare->getTotalDiscount($order),

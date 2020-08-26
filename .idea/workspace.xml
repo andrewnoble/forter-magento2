@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="61f1aa28-8c88-48fc-a5b0-36ac1284e32a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/Model/RequestBuilder/Cart.php" beforeDir="false" afterPath="$PROJECT_DIR$/Model/RequestBuilder/Cart.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/RequestBuilder/Order.php" beforeDir="false" afterPath="$PROJECT_DIR$/Model/RequestBuilder/Order.php" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1gbg6xaa3QTfM2QFhbL7TUk58Oo" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="61f1aa28-8c88-48fc-a5b0-36ac1284e32a" name="Default Changelist" comment="" />
+      <created>1598388540021</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1598388540021</updated>
+      <workItem from="1598388541069" duration="2550000" />
+      <workItem from="1598450565666" duration="598000" />
+      <workItem from="1598464763257" duration="8533000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="4533" y="298" width="524" height="490" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1598466962609">
+      <screen x="3840" y="0" width="1920" height="1080" />
+    </state>
+    <state x="4533" y="298" width="524" height="490" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.39.3840.2121/3840.0.1920.1080/5760.0.1920.1080@3840.0.1920.1080" timestamp="1598466962609" />
+    <state x="6391" y="378" width="647" height="330" key="#com.jetbrains.php.refactoring.move.member.instance.PhpMoveInstanceMethodDialog#" timestamp="1598473827259">
+      <screen x="5760" y="0" width="1920" height="1080" />
+    </state>
+    <state x="6391" y="378" width="647" height="330" key="#com.jetbrains.php.refactoring.move.member.instance.PhpMoveInstanceMethodDialog#/0.39.3840.2121/3840.0.1920.1080/5760.0.1920.1080@5760.0.1920.1080" timestamp="1598473827259" />
+    <state x="6221" y="97" width="988" height="891" key="CommitChangelistDialog2" timestamp="1598473820351">
+      <screen x="5760" y="0" width="1920" height="1080" />
+    </state>
+    <state x="6221" y="97" width="988" height="891" key="CommitChangelistDialog2/0.39.3840.2121/3840.0.1920.1080/5760.0.1920.1080@5760.0.1920.1080" timestamp="1598473820351" />
+    <state x="6503" y="298" width="424" height="490" key="FileChooserDialogImpl" timestamp="1598389270210">
+      <screen x="5760" y="0" width="1920" height="1080" />
+    </state>
+    <state x="6503" y="298" width="424" height="490" key="FileChooserDialogImpl/0.39.3840.2121/3840.0.1920.1080/5760.0.1920.1080@5760.0.1920.1080" timestamp="1598389270210" />
+    <state x="6399" y="265" width="641" height="550" key="find.popup" timestamp="1598474087916">
+      <screen x="5760" y="0" width="1920" height="1080" />
+    </state>
+    <state x="6399" y="265" width="641" height="550" key="find.popup/0.39.3840.2121/3840.0.1920.1080/5760.0.1920.1080@5760.0.1920.1080" timestamp="1598474087916" />
+  </component>
+</project>
