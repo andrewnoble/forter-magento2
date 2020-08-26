@@ -132,16 +132,16 @@ class Customer
             "address"         => $this->getAddressData($address)
         ];
 
-        if ($email = $address->getEmail()) {
+        if ($email = (string)$address->getEmail()) {
             $primaryRecipient["personalDetails"]["email"] = $email;
+        }
+
+        if ($phone = (string)$address->getTelephone()) {
+            $primaryRecipient["phone"][] = [$phone];
         }
 
         if ($useGiftCardRecipient && $giftCardRecipient = $this->giftCardPrepere->getGiftCardPrimaryRecipient($order)) {
             $primaryRecipient["personalDetails"] = $giftCardRecipient;
-        }
-
-        if ($phone = $address->getTelephone()) {
-            $primaryRecipient["phone"][] = [$phone];
         }
 
         return $primaryRecipient;
