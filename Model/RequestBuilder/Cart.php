@@ -108,7 +108,7 @@ class Cart
                         "wrapAsGift" => $item->getData("gift_message_available") ? true : false
                     ]
                 ],
-                "beneficiaries" => $this->giftCardPrepere->isGiftCard($item) ? $this->giftCardPrepere->getGiftCardBeneficiaries($item) : $beneficiaries
+                "beneficiaries" => $this->giftCardPrepere->isGiftCard($item) ? $this->giftCardPrepere->getGiftCardBeneficiaries($item) : [$beneficiaries]
             ];
 
             $cartItems[] = $singleCartItem;
