@@ -122,7 +122,8 @@ class Customer
      *
      * @return array
      */
-    public function getPrimaryRecipient($order, $useGiftCardRecipient = false) {
+    public function getPrimaryRecipient($order, $useGiftCardRecipient = false)
+    {
         $address          = $order->getShippingAddress() ? $order->getShippingAddress() : $order->getBillingAddress();
         $primaryRecipient = [
             "personalDetails" => [
