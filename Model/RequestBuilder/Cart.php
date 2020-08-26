@@ -11,6 +11,7 @@
 namespace Forter\Forter\Model\RequestBuilder;
 
 use Magento\Catalog\Model\CategoryFactory;
+use Forter\Forter\Model\RequestBuilder\GiftCard as GiftCardPrepere;
 use Forter\Forter\Model\RequestBuilder\Customer as CustomerPrepere;
 
 /**
@@ -25,6 +26,11 @@ class Cart
     private $categoryFactory;
 
     /**
+     * @var GiftCardPrepere
+     */
+    private $giftCardPrepere;
+
+    /**
      * @var CustomerPrepere
      */
     private $customerPrepere;
@@ -32,13 +38,16 @@ class Cart
     /**
      * Cart constructor.
      * @param CategoryFactory $categoryFactory
+     * @param GiftCardPrepere $giftCardPrepere
      * @param CustomerPrepere $customerPrepere
      */
     public function __construct(
         CategoryFactory $categoryFactory,
+        GiftCardPrepere $giftCardPrepere,
         CustomerPrepere $customerPrepere
     ) {
         $this->categoryFactory = $categoryFactory;
+        $this->giftCardPrepere = $giftCardPrepere;
         $this->customerPrepere = $customerPrepere;
     }
 
@@ -98,7 +107,7 @@ class Cart
                         "wrapAsGift" => $item->getData("gift_message_available") ? true : false
                     ]
                 ],
-                "beneficiaries" => $this->isGiftCard($item) ? $this->getGiftCardData($item) : [$this->customerPrepere->getPrimaryRecipient($order)]
+                "beneficiaries" => $this->giftCardPrepere->isGiftCard($item) ? $this->giftCardPrepere->getGiftCardBeneficiaries($item) : [$this->customerPrepere->getPrimaryRecipient($order)]
             ];
 
             $cartItems[] = $singleCartItem;
@@ -153,39 +162,5 @@ class Cart
 
         $categories = implode("/", $categories);
         return $categories;
-    }
-
-    /**
-     * @param \Magento\Sales\Model\Order\Item $item
-     *
-     * @return bool
-     */
-    private function isGiftCard($item) {
-        $productOptions = $item->getProductOptions();
-
-        return $productOptions !== null && !empty($productOptions["giftcard_recipient_name"]) && !empty($productOptions["giftcard_recipient_email"]);
-    }
-
-    /**
-     * @param \Magento\Sales\Model\Order\Item $item
-     *
-     * @return array
-     */
-    private function getGiftCardData($item) {
-        $productOptions = $item->getProductOptions();
-        $name           = explode(" ", $productOptions['giftcard_recipient_name'], 2);
-
-        return [
-            [
-                "personalDetails" => [
-                    "firstName" => !empty($name[0]) ? $name[0] : "",
-                    "lastName"  => !empty($name[1]) ? $name[1] : "",
-                    "email"     => $productOptions["giftcard_recipient_email"]
-                ],
-                "comments"        => [
-                    "messageToBeneficiary" => !empty($productOptions["giftcard_message"]) ? $productOptions["giftcard_message"] : ""
-                ]
-            ]
-        ];
     }
 }
